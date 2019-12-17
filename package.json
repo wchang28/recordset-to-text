@@ -1,0 +1,24 @@
+{
+  "name": "recordset-to-text",
+  "version": "1.0.0",
+  "description": "Convert Recordset Stream To Text Stream",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "transpile": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wchang28/recordset-to-text.git"
+  },
+  "author": "Wen Chang",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@types/node": "^12.12.18",
+    "JSONStream": "^1.3.5",
+    "csv": "^5.3.1"
+  }
+}
