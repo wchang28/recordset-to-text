@@ -4,7 +4,7 @@ const csv = require("csv") as {stringify: (options?: any) => Transform};
 const csv_stringify = csv.stringify;
 
 export function to_json(recordsetStream: Readable) {
-    return recordsetStream.pipe(JSONStream.stringify("[", "", "]")) as Readable;
+    return recordsetStream.pipe(JSONStream.stringify("[", ",", "]")) as Readable;
 }
 
 function createStringArrayStream(recordsetStream: Readable) {

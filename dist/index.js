@@ -5,7 +5,7 @@ var JSONStream = require('JSONStream');
 var csv = require("csv");
 var csv_stringify = csv.stringify;
 function to_json(recordsetStream) {
-    return recordsetStream.pipe(JSONStream.stringify("[", "", "]"));
+    return recordsetStream.pipe(JSONStream.stringify("[", ",", "]"));
 }
 exports.to_json = to_json;
 function createStringArrayStream(recordsetStream) {
