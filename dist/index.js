@@ -3,11 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var stream_1 = require("stream");
 var JSONStream = require('JSONStream');
 var csv = require("csv");
-var csv_stringify = csv.stringify;
 function to_json(recordsetStream) {
-    return recordsetStream.pipe(JSONStream.stringify("[", ",", "]"));
+    var stringifier = JSONStream.stringify("[", ",", "]");
+    recordsetStream.on("error", function (err) {
+        stringifier.emit("error", err);
+    });
+    return recordsetStream.pipe(stringifier);
 }
 exports.to_json = to_json;
+// create a readable stream that emits both column headers and rows as array of strings 
 function createStringArrayStream(recordsetStream) {
     var columnHeaders = null;
     var pt = new stream_1.PassThrough({ objectMode: true });
@@ -36,11 +40,18 @@ function createStringArrayStream(recordsetStream) {
         pt.write(ret);
     }).on("end", function () {
         pt.end();
+    }).on("error", function (err) {
+        pt.emit("error", err); // propagate the error downstream
     });
     return pt;
 }
 function to_csv(recordsetStream) {
-    return createStringArrayStream(recordsetStream).pipe(csv_stringify());
+    var sas = createStringArrayStream(recordsetStream);
+    var stringifier = csv.stringify();
+    sas.on("error", function (err) {
+        stringifier.emit("error", err);
+    });
+    return sas.pipe(stringifier);
 }
 exports.to_csv = to_csv;
 //# sourceMappingURL=index.js.map
